@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thiệp Giáng Sinh 🎄</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Dùng để tải PNG -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <style>
+    :root{
+      --bg1:#022c22; --bg2:#020617;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
+      --text:#e5e7eb; --muted:#94a3b8;
+      --accent:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:28px 16px 42px}
+    .badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 12px;border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+      font-size:13px;color:var(--text);
+    }
+    h1{margin:0 0 6px;font-size:34px;letter-spacing:-.02em}
+    .sub{margin:0;color:var(--muted);line-height:1.5}
+
+    .topbar{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px}
+    .btns{display:flex;gap:10px;flex-wrap:wrap}
+    button{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      padding:10px 14px;border-radius:16px;
+      cursor:pointer;
+      transition:.15s transform, .15s background;
+      font-weight:600;
+    }
+    button:hover{background: rgba(255,255,255,.14)}
+    button:active{transform: translateY(1px)}
+    .primary{background: rgba(255,255,255,.92); color:#0b1220; border-color: transparent;}
+    .primary:hover{background:#fff}
+
+    .grid{display:grid;gap:18px;margin-top:22px}
+    @media (min-width: 900px){
+      .grid{grid-template-columns: 380px 1fr}
+    }
+
+    .panel, .card{
+      border:1px solid var(--border);
+      border-radius:26px;
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      overflow:hidden;
+    }
+    .panel{padding:16px}
+    .field{margin:12px 0}
+    label{display:block;font-size:13px;color:var(--text);margin-bottom:6px}
+    input, textarea, select{
+      width:100%;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:16px;
+      outline:none;
+    }
+    textarea{min-height:120px;resize:vertical}
+    .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .hint{font-size:12px;color:var(--muted);margin-top:6px}
+    .sep{height:1px;background:rgba(255,255,255,.10);margin:12px 0}
+
+    /* Toggle */
+    .toggle{display:flex;align-items:center;gap:10px}
+    .switch{
+      width:44px;height:26px;border-radius:999px;border:1px solid var(--border);
+      background: rgba(255,255,255,.08);position:relative;cursor:pointer;
+    }
+    .knob{
+      position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:999px;
+      background:#fff;transition:.18s;
+    }
+    .switch[data-on="true"] .knob{left:21px}
+    .switch[data-on="true"]{background: rgba(255,255,255,.18)}
+
+    /* Card preview */
+    .card-inner{position:relative;padding:22px}
+    @media (min-width: 900px){ .card-inner{padding:34px} }
+    .snow{position:absolute;inset:0;pointer-events:none}
+    .header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .sendto{color:var(--muted);font-size:13px;margin:0}
+    .to{margin:4px 0 0;font-size:28px}
+    .icons{display:flex;gap:10px}
+    .iconbox{
+      width:40px;height:40px;border-radius:16px;
+      display:grid;place-items:center;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .message{
+      margin-top:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      border-radius:24px;
+      padding:16px 16px 14px;
+    }
+    .msg{white-space:pre-wrap;line-height:1.6;font-size:16px;margin:0}
+    .meta{display:flex;justify-content:space-between;gap:10px;margin-top:14px;color:var(--muted);font-size:13px}
+    .from strong{color:var(--text)}
+
+    .tiles{display:grid;gap:10px;margin-top:14px}
+    @media (min-width: 700px){ .tiles{grid-template-columns: repeat(3, 1fr)} }
+    .tile{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      border-radius:22px;padding:12px;
+    }
+    .tile h3{font-size:13px;margin:0 0 6px}
+    .tile p{font-size:12px;margin:0;color:var(--muted);line-height:1.4}
+
+    .toast{
+      position: fixed; left:50%; bottom:18px; transform: translateX(-50%);
+      background: rgba(2,6,23,.82);
+      border:1px solid rgba(255,255,255,.12);
+      color: var(--text);
+      padding:10px 14px;
+      border-radius:16px;
+      backdrop-filter: blur(10px);
+      font-size:13px;
+      opacity:0; pointer-events:none;
+      transition:.18s;
+    }
+    .toast.show{opacity:1; transform: translateX(-50%) translateY(-6px)}
+    footer{margin-top:18px;text-align:center;color:rgba(148,163,184,.75);font-size:12px}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <div class="badges">
+          <div class="badge">❄️ Thiệp Giáng Sinh</div>
+          <div class="badge">✨ Tạo nhanh</div>
+          <div class="badge">🖼️ Tải PNG / Copy</div>
+        </div>
+        <h1>Làm thiệp chúc mừng Giáng Sinh 🎄</h1>
+        <p class="sub">Nhập tên, chọn mẫu, tuỳ biến lời chúc — rồi tải ảnh để gửi Zalo/Facebook.</p>
+      </div>
+
+      <div class="btns">
+        <button id="copyBtn">📋 Sao chép lời chúc</button>
+        <button class="primary" id="downloadBtn">⬇️ Tải thiệp PNG</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Left panel -->
+      <div class="panel">
+        <div class="field">
+          <label>Người nhận</label>
+          <input id="toInput" value="Bạn" placeholder="Ví dụ: Linh" />
+        </div>
+        <div class="field">
+          <label>Người gửi</label>
+          <input id="fromInput" value="Mình" placeholder="Ví dụ: Minh" />
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="field">
+          <label>Chọn mẫu</label>
+          <select id="templateSelect"></select>
+        </div>
+
+        <div class="field">
+          <label>Tùy biến lời chúc (không bắt buộc)</label>
+          <textarea id="customInput" placeholder="Gõ lời chúc riêng… (có thể dùng {to} và {from})"></textarea>
+          <div class="hint">Mẹo: dùng <code>{to}</code> và <code>{from}</code> để tự điền tên.</div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="row">
+          <div>
+            <div style="font-weight:600">Tuyết rơi</div>
+            <div class="hint">Bật để thiệp sinh động hơn</div>
+          </div>
+          <div class="toggle">
+            <div id="snowSwitch" class="switch" data-on="true" role="switch" aria-checked="true" tabindex="0">
+              <div class="knob"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="row">
+            <label style="margin:0">Mật độ tuyết</label>
+            <div class="hint"><span id="densityLabel">85</span></div>
+          </div>
+          <input id="densityRange" type="range" min="30" max="140" value="85" />
+        </div>
+      </div>
+
+      <!-- Right preview -->
+      <div class="card" id="cardCapture">
+        <div class="card-inner">
+          <canvas class="snow" id="snowCanvas"></canvas>
+
+          <div class="header">
+            <div>
+              <p class="sendto">Gửi đến</p>
+              <div class="to" id="toText">Bạn</div>
+            </div>
+            <div class="icons">
+              <div class="iconbox">🎄</div>
+              <div class="iconbox">✨</div>
+            </div>
+          </div>
+
+          <div class="message">
+            <p class="msg" id="msgText"></p>
+            <div class="meta">
+              <div class="from">Từ <strong id="fromText">Mình</strong></div>
+              <div id="dateText"></div>
+            </div>
+          </div>
+
+          <div class="tiles">
+            <div class="tile">
+              <h3>Gợi ý</h3>
+              <p>Bấm “Tải thiệp PNG” để gửi nhanh.</p>
+            </div>
+            <div class="tile">
+              <h3>Nhanh</h3>
+              <p>Copy lời chúc để dán vào tin nhắn.</p>
+            </div>
+            <div class="tile">
+              <h3>Tuỳ biến</h3>
+              <p>Viết lời chúc riêng, thêm {to}/{from}.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Tip: Nếu tải PNG không đẹp, thử Chrome/Edge mới nhất.</footer>
+  </div>
+
+  <div id="toast" class="toast">...</div>
+
+  <script>
+    const TEMPLATES = [
+      { id: "classic", title: "Cổ điển", text: "Chúc {to} một mùa Giáng Sinh an lành, ấm áp bên gia đình và những người thân yêu. Năm mới thật nhiều sức khỏe và niềm vui!" },
+      { id: "funny", title: "Vui vẻ", text: "Merry Christmas {to}! Chúc bạn ăn no, ngủ kỹ, quà đầy tay và… không tăng cân (nếu được)!" },
+      { id: "romantic", title: "Ngọt ngào", text: "Giáng Sinh này, chúc {to} luôn rạng rỡ và bình yên. Cảm ơn vì đã làm năm của mình ấm hơn rất nhiều. ❤️" },
+      { id: "coworker", title: "Đồng nghiệp", text: "Chúc {to} Giáng Sinh vui vẻ và năm mới bứt phá. Cảm ơn vì đã đồng hành và phối hợp tuyệt vời suốt năm qua!" },
+    ];
+
+    const $ = (id) => document.getElementById(id);
+
+    const toInput = $("toInput");
+    const fromInput = $("fromInput");
+    const templateSelect = $("templateSelect");
+    const customInput = $("customInput");
+    const copyBtn = $("copyBtn");
+    const downloadBtn = $("downloadBtn");
+    const toast = $("toast");
+
+    const toText = $("toText");
+    const fromText = $("fromText");
+    const msgText = $("msgText");
+    const dateText = $("dateText");
+
+    const snowSwitch = $("snowSwitch");
+    const densityRange = $("densityRange");
+    const densityLabel = $("densityLabel");
+
+    // Init templates
+    for (const t of TEMPLATES) {
+      const opt = document.createElement("option");
+      opt.value = t.id;
+      opt.textContent = t.title;
+      templateSelect.appendChild(opt);
+    }
+    templateSelect.value = "classic";
+
+    // Date
+    dateText.textContent = new Date().toLocaleDateString("vi-VN");
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=>toast.classList.remove("show"), 1600);
+    }
+
+    function getTemplateText(){
+      const id = templateSelect.value;
+      return (TEMPLATES.find(t => t.id === id) || TEMPLATES[0]).text;
+    }
+
+    function buildMessage(){
+      const to = (toInput.value || "bạn").trim();
+      const from = (fromInput.value || "mình").trim();
+      const base = (customInput.value.trim() ? customInput.value : getTemplateText())
+        .replaceAll("{to}", to)
+        .replaceAll("{from}", from);
+
+      // đảm bảo có dấu kết câu
+      const finalText = /[.!?…]$/.test(base.trim()) ? base : (base.trim() + "!");
+      return { to, from, message: finalText };
+    }
+
+    function render(){
+      const {to, from, message} = buildMessage();
+      toText.textContent = to || "Bạn";
+      fromText.textContent = from || "Mình";
+      msgText.textContent = message;
+    }
+
+    // Copy
+    copyBtn.addEventListener("click", async () => {
+      const { message } = buildMessage();
+      try{
+        await navigator.clipboard.writeText(message);
+        showToast("Đã sao chép lời chúc");
+      }catch{
+        showToast("Không sao chép được (trình duyệt chặn)");
+      }
+    });
+
+    // Download PNG
+    downloadBtn.addEventListener("click", async () => {
+      const node = $("cardCapture");
+      try{
+        const canvas = await html2canvas(node, {
+          backgroundColor: null,
+          scale: Math.min(window.devicePixelRatio || 1, 2),
+          useCORS: true
+        });
+        canvas.toBlob((blob)=>{
+          if(!blob) return showToast("Tải PNG thất bại");
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `thiep-giangsinh-${Date.now()}.png`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+          showToast("Đã tải thiệp PNG");
+        }, "image/png", 1);
+      }catch(e){
+        showToast("Chụp thiệp thất bại (hãy thử Chrome/Edge)");
+      }
+    });
+
+    // Events
+    [toInput, fromInput, templateSelect, customInput].forEach(el=>{
+      el.addEventListener("input", render);
+      el.addEventListener("change", render);
+    });
+
+    // Snow toggle + density
+    let snowEnabled = true;
+    function setSnow(on){
+      snowEnabled = !!on;
+      snowSwitch.dataset.on = String(snowEnabled);
+      snowSwitch.setAttribute("aria-checked", String(snowEnabled));
+    }
+    snowSwitch.addEventListener("click", ()=> setSnow(!snowEnabled));
+    snowSwitch.addEventListener("keydown", (e)=> {
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); setSnow(!snowEnabled); }
+    });
+
+    densityRange.addEventListener("input", ()=>{
+      densityLabel.textContent = densityRange.value;
+      resetFlakes();
+    });
+
+    // --- Snow canvas animation ---
+    const canvas = $("snowCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let W=0,H=0,raf=0,flakes=[];
+    function resize(){
+      const parent = canvas.parentElement;
+      const rect = parent.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = Math.floor(rect.width);
+      H = Math.floor(rect.height);
+      canvas.width = Math.floor(W * dpr);
+      canvas.height = Math.floor(H * dpr);
+      canvas.style.width = W+"px";
+      canvas.style.height = H+"px";
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      resetFlakes();
+    }
+
+    function resetFlakes(){
+      const count = Math.max(20, Math.min(160, Number(densityRange.value || 85)));
+      flakes = Array.from({length: count}, () => ({
+        x: Math.random()*W,
+        y: Math.random()*H,
+        r: 0.8 + Math.random()*2.2,
+        s: 0.6 + Math.random()*1.6,
+        vx: -0.35 + Math.random()*0.7,
+        a: 0.35 + Math.random()*0.45
+      }));
+    }
+
+    function step(){
+      ctx.clearRect(0,0,W,H);
+      if(snowEnabled){
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        for(const f of flakes){
+          f.x += f.vx;
+          f.y += f.s;
+          if(f.y > H+10){ f.y = -10; f.x = Math.random()*W; }
+          if(f.x < -10) f.x = W+10;
+          if(f.x > W+10) f.x = -10;
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(255,255,255,${f.a})`;
+          ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+      raf = requestAnimationFrame(step);
+    }
+
+    window.addEventListener("resize", resize);
+
+    // Init
+    render();
+    resize();
+    step();
+  </script>
+</body>
+</html>
